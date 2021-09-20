@@ -87,6 +87,7 @@ function showCard(event) {
 }
 
 function renderCard() {
+    resetCard();
     $name.append(`${itemData.name}`);
     $photo.attr('src', `${itemData.image}`).attr('alt', `${itemData.name} image`);
     $description.append(`${itemData.description}`);
@@ -94,10 +95,19 @@ function renderCard() {
     $drops.append(`${itemData.drops.join(', ')}`)
 }
 
+
+
 function close(event) {
     $(event.target).closest('div').fadeOut();
 }
 
 function goBack() {
 
+}
+
+function resetCard() {
+    $name.text('');
+    $description.text('');
+    $locations.text('');
+    $drops.text('');
 }
