@@ -3,14 +3,27 @@ const BASE_URL = 'https://botw-compendium.herokuapp.com/api/v2';
 let category;
 let subCategory
 let categoryData;
+let itemData;
 
 //CACHE ELEMENTS
+//List elemenets
 const $container = $('#container');
 const $listContainer = $('#list-container')
 const $list = $('ul');
 
+//Description Card Elements
+const $cardContainer = $('#card-container');
+const $name = $('#name');
+const $photo = $('#photo');
+const $description = $('#description');
+const $locations = $('#common-locations');
+const $drops = $('#drops');
+
 $listContainer.hide();
-$container.on('click', showData)
+$cardContainer.hide();
+
+$container.on('click', showList)
+$('main').on('click', '.list-item', showCard)
 
 //Monitoring API requests//
 $(document).ajaxStart(function() {
@@ -22,7 +35,7 @@ $(document).ajaxStop(function() {
 })
 
 //Showing API data when category container clicked
-function showData(event) {
+function showList(event) {
     let category = $(event.target).attr('id');
     $listContainer.fadeIn();
     
@@ -36,8 +49,7 @@ function showData(event) {
             $('li').click(function(event) {
                 subCategory = $(event.target).attr('id');
                 $('.subcategory').remove();
-                categoryData = data.data[subCategory]
-                console.log(categoryData);
+                categoryData = categoryData[subCategory]
                 renderList();
             })        
         }
@@ -51,18 +63,29 @@ function showData(event) {
 }
 
 function renderList() {
-    // if (category === 'creatures') {
-    //     console.log(subCategory)
-    //     $('.subcategory').remove()
-    //     categoryData = categoryData.subcategory;
-    //     for (let i = 0; i < categoryData.length; i++) {
-    //         $list.append(`<li class="list-item">${categoryData[i].name}</li>`)
-    //     }
-        
-    // }
-
     for (let i = 0; i < categoryData.length; i++) {
-        $list.append(`<li class="list-item">${categoryData[i].name}</li>`)
+        $list.append(`<li class="list-item" id="${categoryData[i].id}">${categoryData[i].name}</li>`)
     }
 
+}
+
+function showCard(event) {
+    let cardId = $(event.target).attr('id');
+    $('.list-item').remove();
+    $listContainer.fadeOut();
+    $cardContainer.fadeIn();
+    $.ajax(`${BASE_URL}/entry/${cardId}`).then(function(data) {
+        console.log(data);
+        itemData = data.data;
+        renderCard();
+    })
+
+}
+
+function renderCard() {
+    $name.append(`${itemData.name}`);
+    $photo.attr('src', `${itemData.image}`).attr('alt', `${itemData.name} image`);
+    $description.append(`${itemData.description}`);
+    $locations.append(`${itemData.common_locations.join(', ')}`);
+    $drops.append(`${itemData.drops.join(', ')}`)
 }
