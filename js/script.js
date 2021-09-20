@@ -22,8 +22,11 @@ const $drops = $('#drops');
 $listContainer.hide();
 $cardContainer.hide();
 
+//Event listeners
 $container.on('click', showList)
 $('main').on('click', '.list-item', showCard)
+$('main').on('click', '.close', close);
+$('main').on('click', '.back', goBack);
 
 //Monitoring API requests//
 $(document).ajaxStart(function() {
@@ -88,4 +91,12 @@ function renderCard() {
     $description.append(`${itemData.description}`);
     $locations.append(`${itemData.common_locations.join(', ')}`);
     $drops.append(`${itemData.drops.join(', ')}`)
+}
+
+function close(event) {
+    $(event.target).closest('div').fadeOut();
+}
+
+function goBack() {
+
 }
