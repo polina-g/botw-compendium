@@ -23,7 +23,7 @@ $listContainer.hide();
 $cardContainer.hide();
 
 //Event listeners
-$container.on('click', showList)
+$container.on('click', ".box", showList)
 $('main').on('click', '.list-item', showCard)
 $('main').on('click', '.close', close);
 $('main').on('click', '.back', goBack);
@@ -99,10 +99,12 @@ function renderCard() {
 
 function close(event) {
     $(event.target).closest('div').fadeOut();
+    resetCard()
+    resetList()
 }
 
 function goBack() {
-
+//Go to the previous window when <- pressed
 }
 
 function resetCard() {
@@ -110,4 +112,9 @@ function resetCard() {
     $description.text('');
     $locations.text('');
     $drops.text('');
+}
+
+function resetList() {
+    $('.list-item').remove();
+    $('.subcategory').remove();
 }
