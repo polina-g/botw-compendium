@@ -28,7 +28,7 @@ li {
     margin: 15px 0;
 }
 
-#list-container {
+#list-container, #card-container {
     position: fixed;
     top: 20%; 
     left: 20%; 
@@ -49,7 +49,7 @@ ul {
     padding: 0; 
 }
 
-.list-item {
+.list-item, .subcategory {
     height: 50px;
     margin: 2px 20px; 
  
@@ -62,7 +62,7 @@ ul {
     font-size: 30px;
 }
 
-.list-item:hover {
+.list-item:hover, .subcategory:hover {
     border: 3px solid darkgray; 
     cursor: pointer;
 }

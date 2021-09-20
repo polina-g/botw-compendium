@@ -45,6 +45,7 @@ function showList(event) {
     $.ajax(`${BASE_URL}/category/${category}`).then(function(data) {
         //Remove list items from previous API call
         $('.list-item').remove();
+        $('.subcategory').remove();
         categoryData = data.data; 
 
         if (category === 'creatures') {
