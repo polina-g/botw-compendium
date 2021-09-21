@@ -53,7 +53,7 @@ li {
 
                         /* COMPENDIUM CATEGORY CONTAINERS */
 
-#container {
+#category-container {
     padding-top: 50px; 
     display: flex;
     justify-content:space-evenly;
@@ -62,7 +62,7 @@ li {
     font-size: 48px;
 }
 
-#container > div {
+#category-container > div {
     height: 250px;
     width: 250px;
     text-align: center;
@@ -72,12 +72,12 @@ li {
     border-radius: 7%;
 }
 
-#container > div:hover {
+#category-container > div:hover {
     box-shadow:20px 20px 50px 5px black; 
     transition: 0.5s;
 }
 
-#container > div > h2 {
+#category-container > div > h2 {
     margin: 0;
     color:rgb(188, 135, 48)
 }
@@ -145,6 +145,18 @@ ul {
 .list-item:hover, .subcategory:hover {
     border: 3px solid rgb(188, 135, 48); 
     cursor: pointer;
+}
+
+.loading {
+    margin: 20% auto;
+    width: 80%;
+    height: 20%;
+    color: black;
+    background-color: rgb(188, 135, 48, 0.7);
+    text-align: center;
+    padding-top: 25px;
+    font-family: 'Medula One', cursive;
+    font-size: 48px;
 }
 
 .buttons-container {

@@ -7,7 +7,7 @@ let itemData;
 
 //CACHE ELEMENTS
 //List elemenets
-const $container = $('#container');
+const $container = $('#category-container');
 const $listContainer = $('#list-container')
 const $list = $('ul');
 
@@ -18,9 +18,11 @@ const $photo = $('#photo');
 const $description = $('#description');
 const $locations = $('#common-locations');
 const $drops = $('#drops');
+const $loadingBox = $('div.loading');
 
 $listContainer.hide();
 $cardContainer.hide();
+$loadingBox.hide();
 
 //Event listeners
 $container.on('click', ".box", showList)
@@ -31,10 +33,12 @@ $('main').on('click', '.back', goBack);
 //Monitoring API requests//
 $(document).ajaxStart(function() {
     console.log('request started')
+    $loadingBox.fadeIn();
 })
 
 $(document).ajaxStop(function() {
     console.log('request complete')
+    $loadingBox.fadeOut();
 })
 
 //Showing API data when category container clicked
@@ -99,13 +103,13 @@ function renderCard() {
 
 
 function close(event) {
-    $(event.target).closest('div').fadeOut();
+    $(event.target).closest('div.container').fadeOut();
     resetCard()
     resetList()
 }
 
 function goBack() {
-//Go to the previous window when <- pressed
+    //Go to the previous window when <- pressed
 }
 
 function resetCard() {
