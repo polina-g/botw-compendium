@@ -30,11 +30,12 @@ main {
 }
 
 #banner {
-    background: URL('/images/sheikah-background.png');
+    display: flex; 
     background-color: black;
     background-position:right;
     background-repeat: no-repeat;
     height: 200px; 
+    justify-content: space-between;
 }
 
 h1 {
@@ -45,6 +46,7 @@ h1 {
     text-align: left;
     padding-left: 20px;
     margin: 0; 
+    flex: 1;
 }
 
 li {
