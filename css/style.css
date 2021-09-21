@@ -16,10 +16,22 @@ nav {
     justify-content: right;
 }
 
+#banner {
+    background: URL('/images/sheikah-background.png');
+    background-color: black;
+    background-position:right;
+    background-repeat: no-repeat;
+    height: 200px; 
+}
+
 h1 {
+    color: rgb(188, 135, 48);
+    padding-top: 50px; 
     font-family: 'Medula One', cursive;
     font-size: 80px;
-    text-align: center;
+    text-align: left;
+    padding-left: 20px;
+    margin: 0; 
 }
 
 li {
@@ -31,18 +43,49 @@ li {
 
 #container {
     display: flex;
-    justify-content:space-around;
+    justify-content:space-evenly;
     flex-wrap: wrap;
     font-family: 'Medula One';
     font-size: 48px;
 }
 
 #container > div {
-    height: 200px;
-    width: 200px;
+    height: 250px;
+    width: 250px;
     text-align: center;
     border: 1px solid black;
     margin: 15px 0;
+}
+
+#container > div > h2 {
+    margin: 0;
+    color:rgb(188, 135, 48)
+}
+
+#monster-box {
+    background: url('/images/monsters-background3.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-y: bottom;
+}
+
+#creatures-box {
+    background: url('/images/creatures-background2.png')
+}
+
+#materials-box {
+    background: url('/images/materials-background.png');
+}
+
+#equipment-box {
+    background: url('/images/equipment-background.png');
+    background-repeat: no-repeat;
+    background-position-y: bottom;
+    background-color: black;
+}
+
+#treasure-box {
+    background: url('/images/treasure-background.jpeg')
 }
 
 #list-container, #card-container {
@@ -59,7 +102,7 @@ li {
     
     background-color: black;
     color: white; 
-    opacity: 0.8; 
+    opacity: 0.9; 
 }
 
 ul {
