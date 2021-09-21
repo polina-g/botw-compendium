@@ -33,6 +33,8 @@ $('main').on('click', '.back', goBack);
 //Monitoring API requests//
 $(document).ajaxStart(function() {
     console.log('request started')
+    resetCard();
+    resetList()
     $loadingBox.fadeIn();
 })
 
@@ -51,30 +53,35 @@ function showList(event) {
 
 
 function callCategoryApi() {
-    $.ajax(`${BASE_URL}/category/${category}`).then(function(data) {
-        //Remove list items from previous API call
-        $('.list-item').remove();
-        $('.subcategory').remove();
-        categoryData = data.data; 
+    $.ajax(`${BASE_URL}/category/${category}`)
+        .then(function(data) {
+            //Remove list items from previous API call
 
-        if (category === 'creatures') {
-            $list.append(`<li class="subcategory" id="food">Food</li><li class="subcategory" id="non_food">Animals</li>`)
-            $('li').click(function(event) {
-                subCategory = $(event.target).attr('id');
-                $('.subcategory').remove();
-                categoryData = categoryData[subCategory]
-                renderList();
-            })        
-        }
+            categoryData = data.data; 
 
-        renderList();
+            if (category === 'creatures') {
+                $list.append(`<li class="subcategory" id="food">Food</li><li class="subcategory" id="non_food">Animals</li>`)
+                $('li').click(function(event) {
+                    subCategory = $(event.target).attr('id');
+                    $('.subcategory').remove();
+                    categoryData = categoryData[subCategory]
+                    renderList();
+                })        
+            }
 
-    }, function() {
-        console.log('Something went wrong')
-    })   
+            renderList();
+
+        },
+        function() {
+            console.log('Something went wrong')
+        })
 }
 
 function renderList() {
+    let nameData = categoryData.map(object => object.name);
+    nameData.sort();
+    categoryData = nameData.map(name => categoryData.find(object => object.name === name))
+    console.log(categoryData);
     for (let i = 0; i < categoryData.length; i++) {
         $list.append(`<li class="list-item" id="${categoryData[i].id}">${categoryData[i].name}</li>`)
     }
@@ -83,11 +90,9 @@ function renderList() {
 
 function showCard(event) {
     let cardId = $(event.target).attr('id');
-    $('.list-item').remove();
     $listContainer.fadeOut();
     $cardContainer.fadeIn();
     $.ajax(`${BASE_URL}/entry/${cardId}`).then(function(data) {
-        console.log(data);
         itemData = data.data;
         renderCard();
     })
@@ -95,7 +100,6 @@ function showCard(event) {
 }
 
 function renderCard() {
-    resetCard();
     $name.append(`${itemData.name}`);
     $photo.attr('src', `${itemData.image}`).attr('alt', `${itemData.name} image`);
     $description.append(`<span class="highlight">Description: </span>${itemData.description}`);
@@ -131,13 +135,10 @@ function goBack(event) {
         
     }
 }
-            // $cardContainer.hide();
-            // $listContainer.fadeIn();
-            // categoryData = categoryData[subCategory]
-            // renderList();
 
 function resetCard() {
     $name.text('');
+    $photo.attr('src', '#').attr('alt', '');
     $description.text('');
     $locations.text('');
     $drops.text('');
