@@ -1,7 +1,7 @@
 //CONSTANTS AND GLOBAL VARIABLES
 const BASE_URL = 'https://botw-compendium.herokuapp.com/api/v2';
 let category;
-let subCategory
+let subCategory;
 let categoryData;
 let itemData;
 
@@ -43,10 +43,14 @@ $(document).ajaxStop(function() {
 
 //Showing API data when category container clicked
 function showList(event) {
-    let category = $(event.target).closest('div').attr('id');
+    category = $(event.target).closest('div').attr('id');
     $listContainer.fadeIn();
     $cardContainer.fadeOut();
-    
+    callCategoryApi();
+}
+
+
+function callCategoryApi() {
     $.ajax(`${BASE_URL}/category/${category}`).then(function(data) {
         //Remove list items from previous API call
         $('.list-item').remove();
@@ -67,8 +71,7 @@ function showList(event) {
 
     }, function() {
         console.log('Something went wrong')
-    })
-
+    })   
 }
 
 function renderList() {
@@ -108,9 +111,30 @@ function close(event) {
     resetList()
 }
 
-function goBack() {
-    //Go to the previous window when <- pressed
+function goBack(event) {
+    let currentBoxType = $(event.target).parents('div.container').attr('id');
+    console.log("List or Card: ", currentBoxType); 
+    if (currentBoxType === 'card-container') {
+        console.log(categoryData)
+        $cardContainer.hide();
+        $listContainer.fadeIn();
+        renderList()
+    } else if (currentBoxType === 'list-container') {
+        let listType = $(event.target).closest('button').parent().siblings('ul').find('li').attr('class');
+        console.log('Type of list: ', listType, $(event.target).parent())
+        if (listType === 'list-item' && category == 'creatures') {
+            console.log('calling API')
+            callCategoryApi();
+        } else {
+            close(event);
+        }
+        
+    }
 }
+            // $cardContainer.hide();
+            // $listContainer.fadeIn();
+            // categoryData = categoryData[subCategory]
+            // renderList();
 
 function resetCard() {
     $name.text('');
