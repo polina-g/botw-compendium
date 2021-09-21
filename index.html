@@ -42,13 +42,12 @@
         </div>
     </header>
     <main>
-        <h2>Browse the Categories</h2>
         <div id="container">
-            <div id="monster-box"><h2 class="box" id="monsters">Monsters</h2></div>
-            <div id="creatures-box"><h2 class="box" id="creatures">Creatures</h2></div>
-            <div id="materials-box"><h2 class="box" id="materials">Materials</h2></div>
-            <div id="equipment-box"><h2 class="box" id="equipment">Equipment</h2></div>
-            <div id="treasure-box"><h2 class="box" id="treasure">Treasure</h2></div>
+            <div class="box" id="monsters"><h2 id="monsters-text">Monsters</h2></div>
+            <div class="box" id="creatures"><h2 id="creatures-text">Creatures</h2></div>
+            <div class="box" id="materials"><h2 id="materials-text">Materials</h2></div>
+            <div class="box" id="equipment"><h2 id="equipment-text">Equipment</h2></div>
+            <div class="box" id="treasure"><h2 id="treasure-text">Treasure</h2></div>
         </div>
         <div id=list-container>
             <button class="back"><i class="fas fa-arrow-left"></i></i></button>
@@ -58,11 +57,13 @@
         <div id="card-container">
             <button class="back"><i class="fas fa-arrow-left"></i></i></button>
             <button class="close"><i class="fas fa-times"></i></button>
-            <p id="name"></p>
-            <img id="photo" src="#" alt=""/>
-            <p id="description"></p>
-            <p id="common-locations"></p>
-            <p id="drops"></p>
+            <div id="card-container-text">
+                <p id="name"></p>
+                <img id="photo" src="#" alt=""/>
+                <p id="description">Description: </p>
+                <p id="common-locations">Common Locations: </p>
+                <p id="drops">Drops: </p>
+            </div>
         </div>
     </main>
 </body>

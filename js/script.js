@@ -39,7 +39,7 @@ $(document).ajaxStop(function() {
 
 //Showing API data when category container clicked
 function showList(event) {
-    let category = $(event.target).attr('id');
+    let category = $(event.target).closest('div').attr('id');
     $listContainer.fadeIn();
     
     $.ajax(`${BASE_URL}/category/${category}`).then(function(data) {

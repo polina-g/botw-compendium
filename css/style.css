@@ -1,4 +1,8 @@
 /* VH divides into 16 - when calculating rem units, calculate: px/16 = rem */
+/* background-color: #007662 (darker green)  */
+/* background-color: #007261 (middle green)  */
+/* background-color: #00C9AF (lighter green)  */
+
 
 * {
     box-sizing: border-box;
@@ -14,6 +18,14 @@ body {
 nav {
     display: flex;
     justify-content: right;
+    background-color: black; 
+    color: white; 
+}
+
+main {
+    flex: 1; 
+    /* background-color: #005B4B; */
+    background-image: linear-gradient(to top, #bc8730, #9a892c, #798934, #598541, #398050, #3e7143, #3f6238, #3d542f, #403b1e, #352619, #201513, #000000);
 }
 
 #banner {
@@ -42,6 +54,7 @@ li {
                         /* COMPENDIUM CATEGORY CONTAINERS */
 
 #container {
+    padding-top: 50px; 
     display: flex;
     justify-content:space-evenly;
     flex-wrap: wrap;
@@ -55,6 +68,13 @@ li {
     text-align: center;
     border: 1px solid black;
     margin: 15px 0;
+    cursor: pointer;
+    border-radius: 7%;
+}
+
+#container > div:hover {
+    box-shadow:20px 20px 50px 5px black; 
+    transition: 0.5s;
 }
 
 #container > div > h2 {
@@ -62,36 +82,36 @@ li {
     color:rgb(188, 135, 48)
 }
 
-#monster-box {
+#monsters {
     background: url('/images/monsters-background3.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position-y: bottom;
 }
 
-#creatures-box {
+#creatures {
     background: url('/images/creatures-background2.png')
 }
 
-#materials-box {
+#materials {
     background: url('/images/materials-background.png');
 }
 
-#equipment-box {
+#equipment {
     background: url('/images/equipment-background.png');
     background-repeat: no-repeat;
     background-position-y: bottom;
     background-color: black;
 }
 
-#treasure-box {
+#treasure {
     background: url('/images/treasure-background.jpeg')
 }
 
 #list-container, #card-container {
-    position: fixed;
-    top: 20%; 
-    left: 20%; 
+    position: relative;
+    margin: 0 auto; 
+  
     z-index: 10;
 
     overflow:auto; 
@@ -113,7 +133,7 @@ ul {
     height: 50px;
     margin: 2px 20px; 
  
-    box-shadow:20px 20px 50px 15px grey;  
+    box-shadow:3px 3px 20px 5px grey;
 
 
     list-style: none;
@@ -123,6 +143,24 @@ ul {
 }
 
 .list-item:hover, .subcategory:hover {
-    border: 3px solid darkgray; 
+    border: 3px solid rgb(188, 135, 48); 
     cursor: pointer;
+}
+
+#card-container-text {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Amatic SC', cursive;
+}
+
+#name {
+    font-size: 48px; 
+    align-self: center;
+    margin-top: 5px;
+}
+
+#photo {
+    min-width: 65%;
+    align-self: center;
+    border: 5px solid rgb(188, 135, 48);
 }
