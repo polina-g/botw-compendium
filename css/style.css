@@ -110,13 +110,13 @@ li {
 
 #list-container, #card-container {
     position: relative;
-    margin: 0 auto; 
+    margin: 20px auto 50px auto; 
   
     z-index: 10;
 
     overflow:auto; 
    
-    width: 600px;
+    width: 60%;
     height: 500px;
     border: 1px solid black;
     
@@ -147,6 +147,40 @@ ul {
     cursor: pointer;
 }
 
+.buttons-container {
+    display: flex; 
+    justify-content: space-between;
+    background-color: rgb(0, 0, 0, 0.7);
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0px; 
+    padding: 10px 20px 10px 20px;
+}
+
+button.back, button.close {
+    background-color: black;
+    border: 3px solid rgb(188, 135, 48);
+    color: white;
+    height: 35px;
+    width: 40px; 
+    font-size: 16px;
+    text-align: center;
+}
+
+button.back:hover, button.close:hover {
+    background-color: rgb(188, 135, 48);
+    color: black; 
+    transition: 0.3s;
+}
+
+/* button.back {
+    align-self: flex-start;
+}
+
+button.close {
+    align-self: flex-end;
+} */
+
 #card-container-text {
     display: flex;
     flex-direction: column;
@@ -154,13 +188,26 @@ ul {
 }
 
 #name {
-    font-size: 48px; 
+    font-size: 72px; 
     align-self: center;
     margin-top: 5px;
+    margin-bottom: 45px; 
+    color:rgb(188, 135, 48);
 }
 
 #photo {
-    min-width: 65%;
+    max-height: 18.75rem; 
     align-self: center;
     border: 5px solid rgb(188, 135, 48);
+}
+
+#description, #common-locations, #drops {
+    align-self: center;
+    font-size: 36px; 
+    max-width: 80%; 
+}
+
+.highlight {
+    font-size: 40px;
+    color:rgb(188, 135, 48);
 }

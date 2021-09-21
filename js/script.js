@@ -41,6 +41,7 @@ $(document).ajaxStop(function() {
 function showList(event) {
     let category = $(event.target).closest('div').attr('id');
     $listContainer.fadeIn();
+    $cardContainer.fadeOut();
     
     $.ajax(`${BASE_URL}/category/${category}`).then(function(data) {
         //Remove list items from previous API call
@@ -90,9 +91,9 @@ function renderCard() {
     resetCard();
     $name.append(`${itemData.name}`);
     $photo.attr('src', `${itemData.image}`).attr('alt', `${itemData.name} image`);
-    $description.append(`${itemData.description}`);
-    $locations.append(`${itemData.common_locations.join(', ')}`);
-    $drops.append(`${itemData.drops.join(', ')}`)
+    $description.append(`<span class="highlight">Description: </span>${itemData.description}`);
+    $locations.append(`<span class="highlight">Common Locations: </span>${itemData.common_locations.join(', ')}`);
+    $drops.append(`<span class="highlight">Drops: </span>${itemData.drops.join(', ')}`)
 }
 
 
