@@ -26,6 +26,7 @@ const $loadingBox = $('div.loading');
 const $searchInput = $('#search-input');
 const $searchBtn = $('#search-btn');
 const $searchList = $('#search-list');
+const $placeholderText = $('#placeholder-text')
 
 $listContainer.hide();
 $cardContainer.hide();
@@ -37,6 +38,7 @@ $('main').on('click', '.list-item', showCard)
 $('main').on('click', '.close', close);
 $('main').on('click', '.back', goBack);
 $searchInput.on('keyup', generateDynamicList)
+$('#search').on('click', '.search-list-item', showCard)
 // $searchBtn.on('click', generateList)
 
 
@@ -185,18 +187,18 @@ function generateDynamicList() {
     let keyInput = $searchInput.val(); 
     $('.search-list-item').remove();
     if(keyInput.length < 1) {
+        $placeholderText.fadeIn();
         return
     }
     if (allNames.length === 0) {
         grabNames();
     } else {
+        $placeholderText.fadeOut();
         let resultArr = [];
-
-
         resultArr = allNames.filter(object => object.name.includes(`${keyInput}`))
         console.log(resultArr.length)
         for (let i = 0; i < resultArr.length; i++) {          
-            $searchList.append(`<li class="search-list-item">${resultArr[i].name}</li>`)
+            $searchList.append(`<li class="search-list-item" id=${resultArr[i].id}>${resultArr[i].name}</li>`)
         }
     }
 }
