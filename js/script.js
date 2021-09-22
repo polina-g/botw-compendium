@@ -39,7 +39,6 @@ $('main').on('click', '.close', close);
 $('main').on('click', '.back', goBack);
 $searchInput.on('keyup', generateDynamicList)
 $('#search').on('click', '.search-list-item', showCard)
-// $searchBtn.on('click', generateList)
 
 
 //Monitoring API requests//
@@ -110,6 +109,12 @@ function showCard(event) {
 }
 
 function renderCard() {
+    for (key in itemData) {
+        if (!itemData[key]) {
+            itemData[key] = ['unknown'];
+            console.log(itemData)
+        }
+    }
     $name.append(`${itemData.name}`);
     $photo.attr('src', `${itemData.image}`).attr('alt', `${itemData.name} image`);
     $description.append(`<span class="highlight">Description: </span>${itemData.description}`);
@@ -159,10 +164,13 @@ function resetList() {
     $('.subcategory').remove();
 }
 
+let countCalls = 0;
 function grabNames() {
-    if($searchInput.val().length > 1) {
-        return
+    //If we've already called this API during the session, skip calling it again!!!
+    if (countCalls > 0) {
+        return;
     }
+
     $.ajax(`${BASE_URL}`)
         .then(function(data){
           let allData = data.data;
@@ -176,20 +184,31 @@ function grabNames() {
             }
           }
           allNames = allNames.flat();
+          console.log("All Names length ", allNames.length)
           generateDynamicList();
+
         },
         function(error){
             console.log('something went wrong')
         });
+
+        countCalls++;
   }
   
 function generateDynamicList() {
+    //Bug difficult to reproduce, console log here to debug once the problem occurs again!
+    console.log('generating...')
+    
     let keyInput = $searchInput.val(); 
     $('.search-list-item').remove();
+
+    //When the imput is empty, return to baseline state
     if(keyInput.length < 1) {
         $placeholderText.fadeIn();
         return
     }
+
+    //If we haven't called the API to store the names yes - grab the names
     if (allNames.length === 0) {
         grabNames();
     } else {
