@@ -86,29 +86,29 @@ li {
 }
 
 #monsters {
-    background: url('/images/monsters-background3.png');
+    background: url('images/monsters-background3.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position-y: bottom;
 }
 
 #creatures {
-    background: url('/images/creatures-background2.png')
+    background: url('images/creatures-background2.png')
 }
 
 #materials {
-    background: url('/images/materials-background.png');
+    background: url('images/materials-background.png');
 }
 
 #equipment {
-    background: url('/images/equipment-background.png');
+    background: url('images/equipment-background.png');
     background-repeat: no-repeat;
     background-position-y: bottom;
     background-color: black;
 }
 
 #treasure {
-    background: url('/images/treasure-background.jpeg')
+    background: url('images/treasure-background.jpeg')
 }
 
 #list-container, #card-container {
