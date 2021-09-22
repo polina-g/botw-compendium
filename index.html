@@ -22,6 +22,7 @@
     referrerpolicy="no-referrer"/>
 
     <!-- STYLE SHEET -->
+    <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/style.css">
 
     <!-- JQUERY -->
@@ -34,44 +35,65 @@
 <body>
     <header>
         <nav>
-            <li>Browse</li>
-            <li>Search</li>
+            <a href="#browse"><button class="nav-buttons">Browse</button></a>
+            <a href="#search"><button class="nav-buttons">Search</button></a>
         </nav>
         <div id="banner">
             <h1>Breath of the Wild Compendium</h1>
-            <img src="images/sheikah-background.png" alt="sheikah slate emblem">
+            <img src="./images/sheikah-background.png" alt="sheikah slate emblem">
         </div>
     </header>
     <main>
-        <div id="category-container">
-            <div class="box" id="monsters"><h2 id="monsters-text">Monsters</h2></div>
-            <div class="box" id="creatures"><h2 id="creatures-text">Creatures</h2></div>
-            <div class="box" id="materials"><h2 id="materials-text">Materials</h2></div>
-            <div class="box" id="equipment"><h2 id="equipment-text">Equipment</h2></div>
-            <div class="box" id="treasure"><h2 id="treasure-text">Treasure</h2></div>
-        </div>
-        <div id="list-container" class="container">
-            <div class="buttons-container">
-                <button class="back"><i class="fas fa-arrow-left"></i></i></button>
-                <button class="close"><i class="fas fa-times"></i></button>
+        <section id="browse">
+            <div id="category-container">
+                <div class="box" id="monsters">
+                    <h2 id="monsters-text">Monsters</h2>
+                </div>
+                <div class="box" id="creatures">
+                    <h2 id="creatures-text">Creatures</h2>
+                </div>
+                <div class="box" id="materials">
+                    <h2 id="materials-text">Materials</h2>
+                </div>
+                <div class="box" id="equipment">
+                    <h2 id="equipment-text">Equipment</h2>
+                </div>
+                <div class="box" id="treasure">
+                    <h2 id="treasure-text">Treasure</h2>
+                </div>
             </div>
-            <div class="loading">Loading...</div>
-            <ul></ul>
-        </div>
-        <div id="card-container" class="container">
-            <div class="buttons-container">
-                <button class="back"><i class="fas fa-arrow-left"></i></i></button>
-                <button class="close"><i class="fas fa-times"></i></button>
+            <div id="list-container" class="container">
+                <div class="buttons-container">
+                    <button class="back"><i class="fas fa-arrow-left"></i></i></button>
+                    <button class="close"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="loading">Loading...</div>
+                <ul id="item-list"></ul>
             </div>
-            <div class="loading">Loading...</div>
-            <div id="card-container-text">
-                <p id="name"></p>
-                <img id="photo" src="#" alt=""/>
-                <p id="description">Description: </p>
-                <p id="common-locations">Common Locations: </p>
-                <p id="drops">Drops: </p>
+            <div id="card-container" class="container">
+                <div class="buttons-container">
+                    <button class="back"><i class="fas fa-arrow-left"></i></i></button>
+                    <button class="close"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="loading">Loading...</div>
+                <div id="card-container-text">
+                    <p id="name"></p>
+                    <img id="photo" src="#" alt=""/>
+                    <p id="description">Description: </p>
+                    <p id="common-locations">Common Locations: </p>
+                    <p id="drops">Drops: </p>
+                </div>
             </div>
-        </div>
+        </section> 
+        <section id="search">
+            <div id=search-container>
+                <input id="search-input" type="text" value="" placeholder="Start typing...">
+                <button id="search-btn" class="nav-buttons">Search</button>
+            </div>
+            <div id=search-result-container>
+                <ul id="search-list"></ul>
+            </div>
+        </section> 
     </main>
 </body>
 </html>

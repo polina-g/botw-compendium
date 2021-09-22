@@ -3,13 +3,14 @@ const BASE_URL = 'https://botw-compendium.herokuapp.com/api/v2';
 let category;
 let subCategory;
 let categoryData;
+let allData;
 let itemData;
 
 //CACHE ELEMENTS
 //List elemenets
 const $container = $('#category-container');
 const $listContainer = $('#list-container')
-const $list = $('ul');
+const $list = $('#item-list');
 
 //Description Card Elements
 const $cardContainer = $('#card-container');
@@ -20,6 +21,11 @@ const $locations = $('#common-locations');
 const $drops = $('#drops');
 const $loadingBox = $('div.loading');
 
+//Search Elements
+const $searchInput = $('#search-input');
+const $searchBtn = $('#search-btn');
+const searchList = $('#search-list')
+
 $listContainer.hide();
 $cardContainer.hide();
 $loadingBox.hide();
@@ -29,6 +35,9 @@ $container.on('click', ".box", showList)
 $('main').on('click', '.list-item', showCard)
 $('main').on('click', '.close', close);
 $('main').on('click', '.back', goBack);
+$searchInput.on('keyup', dynamiclyPopulateList)
+$searchBtn.on('click', generateList)
+
 
 //Monitoring API requests//
 $(document).ajaxStart(function() {
@@ -148,3 +157,22 @@ function resetList() {
     $('.list-item').remove();
     $('.subcategory').remove();
 }
+
+// function dynamiclyPopulateList() {
+//     let keyInput = $searchInput.val();
+//     $.ajax(`${BASE_URL}`)
+//         .then(function(data){
+//             allData = data.data;
+//             let resultArr = [];
+//             for (category in allData) {
+//                 if (category !== 'creatures') {
+//                     resultArr = category.filter(itemObject => {
+//                         //If itemObject.name has a match with the regEx based on the keyInput, return the object and push to resultArr.
+//                     })
+//                 }
+//             }
+//         },
+//         function(error){
+//             console.log('something went wrong')
+//         })
+// }

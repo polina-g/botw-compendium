@@ -2,8 +2,6 @@
 /* background-color: #007662 (darker green)  */
 /* background-color: #007261 (middle green)  */
 /* background-color: #00C9AF (lighter green)  */
-
-
 * {
     box-sizing: border-box;
 }
@@ -16,17 +14,37 @@ body {
     position: relative; 
 }
 
+main {
+    flex: 1;
+    background-image: linear-gradient(to top, #bc8730, #9a892c, #798934, #598541, #398050, #3e7143, #3f6238, #3d542f, #403b1e, #352619, #201513, #000000);
+}
+
 nav {
-    display: flex;
-    justify-content: right;
+    height: 90px;
+    display: flex;    
     background-color: black; 
     color: white; 
 }
 
-main {
-    flex: 1; 
-    /* background-color: #005B4B; */
-    background-image: linear-gradient(to top, #bc8730, #9a892c, #798934, #598541, #398050, #3e7143, #3f6238, #3d542f, #403b1e, #352619, #201513, #000000);
+button.nav-buttons {
+    margin: 20px 0px 20px 20px;
+    background-color: black;
+    width: 100px; 
+    border: 2px solid rgb(188, 135, 48);
+    font-size: 36px; 
+    font-family: 'Medula One', cursive;
+    color: rgb(188, 135, 48)
+}
+
+button.nav-buttons:hover {
+    color: black;
+    background-color: rgb(188, 135, 48);
+
+}
+
+button > a {
+    text-decoration: none;
+
 }
 
 #banner {
@@ -44,7 +62,7 @@ h1 {
     font-family: 'Medula One', cursive;
     font-size: 80px;
     text-align: left;
-    padding-left: 20px;
+    padding-left: 40px;
     margin: 0; 
     flex: 1;
 }
@@ -86,29 +104,29 @@ li {
 }
 
 #monsters {
-    background: url('images/monsters-background3.png');
+    background: URL('/images/monsters-background3.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position-y: bottom;
 }
 
 #creatures {
-    background: url('images/creatures-background2.png')
+    background: url('/images/creatures-background2.png')
 }
 
 #materials {
-    background: url('images/materials-background.png');
+    background: url('/images/materials-background.png');
 }
 
 #equipment {
-    background: url('images/equipment-background.png');
+    background: url('/images/equipment-background.png');
     background-repeat: no-repeat;
     background-position-y: bottom;
     background-color: black;
 }
 
 #treasure {
-    background: url('images/treasure-background.jpeg')
+    background: url('/images/treasure-background.jpeg')
 }
 
 #list-container, #card-container {
@@ -227,3 +245,30 @@ button.close {
     font-size: 40px;
     color:rgb(188, 135, 48);
 }
+
+                                    /* SEARCH SECTION */
+#search-container {
+    margin-top: 50px; 
+    display: flex; 
+    justify-content: center;
+}
+
+#search-container > input {
+    border-radius: 25px;
+    border: 2px solid rgb(188, 135, 48);
+    padding: 20px; 
+    width: 250px;
+    height: 50px; 
+    margin-right: 20px; 
+}
+
+#search-container > input:hover {
+    border-radius: 24px;
+    box-shadow: -9px 9px 12px rgb(121, 85, 28);
+}
+
+#search-btn {
+    margin: 0; 
+}
+
+
