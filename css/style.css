@@ -27,7 +27,7 @@ nav {
 }
 
 button.nav-buttons {
-    margin: 20px 0px 20px 20px;
+    margin: 30px 0px 20px 40px;
     background-color: black;
     width: 100px; 
     border: 2px solid rgb(188, 135, 48);
@@ -39,6 +39,7 @@ button.nav-buttons {
 button.nav-buttons:hover {
     color: black;
     background-color: rgb(188, 135, 48);
+    transition: 0.4s;
 
 }
 
@@ -151,7 +152,7 @@ ul {
     padding: 0; 
 }
 
-.list-item, .subcategory {
+.list-item, .subcategory, .search-list-item {
     height: 50px;
     margin: 2px 20px; 
  
@@ -164,7 +165,7 @@ ul {
     font-size: 30px;
 }
 
-.list-item:hover, .subcategory:hover {
+.list-item:hover, .subcategory:hover, .search-list-item:hover {
     border: 3px solid rgb(188, 135, 48); 
     cursor: pointer;
 }
@@ -206,14 +207,6 @@ button.back:hover, button.close:hover {
     color: black; 
     transition: 0.3s;
 }
-
-/* button.back {
-    align-self: flex-start;
-}
-
-button.close {
-    align-self: flex-end;
-} */
 
 #card-container-text {
     display: flex;
@@ -267,8 +260,16 @@ button.close {
     box-shadow: -9px 9px 12px rgb(121, 85, 28);
 }
 
-#search-btn {
+#clear-btn {
     margin: 0; 
 }
 
+#search-result-container {
+    margin: 20px auto; 
+    width: 80vw;
+    height: 500px;
+    background-color: rgb(0, 0, 0, 0.8);
+    overflow: auto;
+    color: white; 
+}
 

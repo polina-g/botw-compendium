@@ -5,6 +5,7 @@ let subCategory;
 let categoryData;
 let allData;
 let itemData;
+let allNames = [];
 
 //CACHE ELEMENTS
 //List elemenets
@@ -24,7 +25,7 @@ const $loadingBox = $('div.loading');
 //Search Elements
 const $searchInput = $('#search-input');
 const $searchBtn = $('#search-btn');
-const searchList = $('#search-list')
+const $searchList = $('#search-list');
 
 $listContainer.hide();
 $cardContainer.hide();
@@ -35,7 +36,7 @@ $container.on('click', ".box", showList)
 $('main').on('click', '.list-item', showCard)
 $('main').on('click', '.close', close);
 $('main').on('click', '.back', goBack);
-// $searchInput.on('keyup', dynamiclyPopulateList)
+$searchInput.on('keyup', generateDynamicList)
 // $searchBtn.on('click', generateList)
 
 
@@ -156,21 +157,46 @@ function resetList() {
     $('.subcategory').remove();
 }
 
-// function dynamiclyPopulateList() {
-//     let keyInput = $searchInput.val();
-//     $.ajax(`${BASE_URL}`)
-//         .then(function(data){
-//             allData = data.data;
-//             let resultArr = [];
-//             for (category in allData) {
-//                 if (category !== 'creatures') {
-//                     resultArr = category.filter(itemObject => {
-//                         //If itemObject.name has a match with the regEx based on the keyInput, return the object and push to resultArr.
-//                     })
-//                 }
-//             }
-//         },
-//         function(error){
-//             console.log('something went wrong')
-//         })
-// }
+function grabNames() {
+    if($searchInput.val().length > 1) {
+        return
+    }
+    $.ajax(`${BASE_URL}`)
+        .then(function(data){
+          let allData = data.data;
+          for (category in allData) {
+            if (category != 'creatures'){
+              allNames.push(allData[category].map(itemObject => ({name: itemObject.name, id: itemObject.id})))
+            } else if (category === 'creatures') {
+                for (subCategory in allData[category]) {
+                  allNames.push(allData[category][subCategory].map(itemObject => ({name: itemObject.name, id: itemObject.id})))
+                }
+            }
+          }
+          allNames = allNames.flat();
+          generateDynamicList();
+        },
+        function(error){
+            console.log('something went wrong')
+        });
+  }
+  
+function generateDynamicList() {
+    let keyInput = $searchInput.val(); 
+    $('.search-list-item').remove();
+    if(keyInput.length < 1) {
+        return
+    }
+    if (allNames.length === 0) {
+        grabNames();
+    } else {
+        let resultArr = [];
+
+
+        resultArr = allNames.filter(object => object.name.includes(`${keyInput}`))
+        console.log(resultArr.length)
+        for (let i = 0; i < resultArr.length; i++) {          
+            $searchList.append(`<li class="search-list-item">${resultArr[i].name}</li>`)
+        }
+    }
+}
