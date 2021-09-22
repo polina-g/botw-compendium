@@ -35,8 +35,8 @@ $container.on('click', ".box", showList)
 $('main').on('click', '.list-item', showCard)
 $('main').on('click', '.close', close);
 $('main').on('click', '.back', goBack);
-$searchInput.on('keyup', dynamiclyPopulateList)
-$searchBtn.on('click', generateList)
+// $searchInput.on('keyup', dynamiclyPopulateList)
+// $searchBtn.on('click', generateList)
 
 
 //Monitoring API requests//
@@ -64,8 +64,6 @@ function showList(event) {
 function callCategoryApi() {
     $.ajax(`${BASE_URL}/category/${category}`)
         .then(function(data) {
-            //Remove list items from previous API call
-
             categoryData = data.data; 
 
             if (category === 'creatures') {
