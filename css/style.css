@@ -10,6 +10,7 @@ body {
     font-family: Helvetica;
     min-height: 100vh;
     display: flex;
+
     flex-direction: column;
     position: relative; 
 }
@@ -50,11 +51,21 @@ button > a {
 
 #banner {
     display: flex; 
+    flex-wrap: wrap-reverse;
     background-color: black;
     background-position:right;
     background-repeat: no-repeat;
     height: 200px; 
     justify-content: space-between;
+    border-bottom: 3px solid rgb(188, 135, 48);
+   
+}
+
+.line {
+    width: 100%; 
+    padding-top:15px;
+    border-bottom: 3px solid rgb(188, 135, 48); 
+    background-color: black;
 }
 
 h1 {
@@ -220,6 +231,7 @@ button.back:hover, button.close:hover {
     margin-top: 5px;
     margin-bottom: 45px; 
     color:rgb(188, 135, 48);
+    text-align: center;
 }
 
 #photo {
@@ -280,3 +292,30 @@ button.back:hover, button.close:hover {
     font-size: 48px; 
 }
 
+                                        /* MEDIA QUERIES */
+
+@media screen 
+and (min-width: 360px) 
+and (max-width: 812px)  { 
+
+    #banner > h1 {
+        font-size: 60px; 
+    }
+
+    #banner > img {
+        display: none;
+    }
+
+    #list-container, #card-container {
+        width: 100vw;
+        max-height: 100vh;
+        top: 350px; 
+        left: 0;
+    }
+
+    #search-container > input {
+        width: 90%;
+    }
+
+
+}
