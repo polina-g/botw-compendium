@@ -21,7 +21,7 @@ const $photo = $('#photo');
 const $description = $('#description');
 const $locations = $('#common-locations');
 const $drops = $('#drops');
-const $loadingBox = $('div.loading');
+const $browseLoadingBox = $('div.browse-loading');
 const $backBtn = $('button.back')
 
 //Search Elements
@@ -29,12 +29,14 @@ const $searchInput = $('#search-input');
 const $searchBtn = $('#search-btn');
 const $searchList = $('#search-list');
 const $placeholderText = $('#placeholder-text')
+const $searchLoadingBox = $('div.search-loading');
 
 //Hiidng elements that appear dynamically throughout the website
 $listContainer.hide();
 $cardContainer.hide();
-$loadingBox.hide();
-$backBtn.hide();
+$browseLoadingBox.hide();
+$searchLoadingBox.hide();
+$('.search-loading').css('opacity', '0');
 
 //Event listeners
 $container.on('click', ".box", createList)
@@ -49,13 +51,11 @@ $('#search').on('click', '.search-list-item', createCard)
 $(document).ajaxStart(function() {
     console.log('request started')
     resetCard();
-    resetList()
-    $loadingBox.fadeIn();
+    resetList();
 })
 
 $(document).ajaxStop(function() {
     console.log('request complete')
-    $loadingBox.fadeOut();
 })
 
 //Helper functions
@@ -89,8 +89,10 @@ function createList(event) {
 
 
 function callCategoryApi() {
+    $browseLoadingBox.fadeIn();
     $.ajax(`${BASE_URL}/category/${category}`)
         .then(function(data) {
+            $browseLoadingBox.fadeOut();
             categoryData = data.data; 
 
             //Unlike othe categories, the creatures category has two subcategories: before passing the API data to render, user chooses the subcategory first
@@ -101,15 +103,17 @@ function callCategoryApi() {
                 $('li').click(function(event) {
                     subCategory = $(event.target).attr('id');
                     $('.subcategory').remove();
-                    categoryData = categoryData[subCategory]
+                    categoryData = categoryData[subCategory];
+
                     renderList();
                 })        
             } else {
+            $browseLoadingBox.fadeOut();
             renderList();
             }
         },
         function() {
-            console.log('Something went wrong')
+            $browseLoadingBox.text('Someting went wrong when loading data. Please try again later.')
         })
 }
 
@@ -130,10 +134,13 @@ function renderList() {
 function createCard(event) {
     let cardId = $(event.target).attr('id');
     let eventLocation = $(event.target).closest('ul').attr('id');
-    console.log("event location", eventLocation);
+  
     $listContainer.fadeOut();
     $cardContainer.fadeIn();
+    $browseLoadingBox.fadeIn();
     $.ajax(`${BASE_URL}/entry/${cardId}`).then(function(data) {
+        $browseLoadingBox.fadeOut();
+
         itemData = data.data;
         backButtonShow = true;
         if (eventLocation == 'item-list') {
@@ -143,7 +150,8 @@ function createCard(event) {
         else if (eventLocation == 'search-list') {
             renderCard(false)
         }
-
+    }, function(error) {
+        $browseLoadingBox.text('Someting went wrong when loading data. Please try again later.')
     })
 
 }
@@ -165,13 +173,13 @@ function renderCard(backButtonShow) {
             console.log(itemData)
         }
     }
+
     $name.append(`${itemData.name}`);
     $photo.attr('src', `${itemData.image}`).attr('alt', `${itemData.name} image`);
     $description.append(`<span class="highlight">Description: </span>${itemData.description}`);
     $locations.append(`<span class="highlight">Common Locations: </span>${itemData.common_locations.join(', ')}`);
     $drops.append(`<span class="highlight">Drops: </span>${itemData.drops.join(', ')}`)
 }
-
 
 
 function close(event) {
@@ -199,7 +207,6 @@ function goBack(event) {
 }
 
 
-
 let countCalls = 0;
 function grabNames() {
     //If we've already called this API during the session, skip calling it again!!!
@@ -207,8 +214,11 @@ function grabNames() {
         return;
     }
 
+    $searchLoadingBox.fadeIn()
+
     $.ajax(`${BASE_URL}`)
         .then(function(data){
+          $searchLoadingBox.fadeOut()
           let allData = data.data;
           for (category in allData) {
             if (category != 'creatures'){
@@ -219,27 +229,23 @@ function grabNames() {
                 }
             }
           }
+
           allNames = allNames.flat();
           console.log("All Names length ", allNames.length)
           generateDynamicList();
+         
 
         },
         function(error){
-            console.log('something went wrong')
+            $searchLoadingBox.text('Something went wrong when loading. Please try again later')
         });
 
         countCalls++;
   }
   
 function generateDynamicList() {
-    //Bug difficult to reproduce, console log here to debug once the problem occurs again!
-    console.log('generating...')
- 
-
     let keyInput = $searchInput.val().toLowerCase(); 
- 
     $('.search-list-item').remove();
-    console.log(keyInput);
 
     //When the imput is empty, return to baseline state
     if(keyInput.length < 1) {
