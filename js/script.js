@@ -55,6 +55,27 @@ $(document).ajaxStop(function() {
     $loadingBox.fadeOut();
 })
 
+//Helper functions
+function sortByName(objectArray) {
+    let nameData = objectArray.map(object => object.name);
+    nameData.sort();
+    objectArray = nameData.map(name => objectArray.find(object => object.name === name))
+    return objectArray;
+}
+
+function resetCard() {
+    $name.text('');
+    $photo.attr('src', '#').attr('alt', '');
+    $description.text('');
+    $locations.text('');
+    $drops.text('');
+}
+
+function resetList() {
+    $('.list-item').remove();
+    $('.subcategory').remove();
+}
+
 //Showing API data when category container clicked
 function showList(event) {
     category = $(event.target).closest('div').attr('id');
@@ -89,9 +110,7 @@ function callCategoryApi() {
 }
 
 function renderList() {
-    let nameData = categoryData.map(object => object.name);
-    nameData.sort();
-    categoryData = nameData.map(name => categoryData.find(object => object.name === name))
+    categoryData = sortByName(categoryData)
     $categoryTitle.text(`${category.toUpperCase()}`);
     for (let i = 0; i < categoryData.length; i++) {
         $list.append(`<li class="list-item" id="${categoryData[i].id}">${categoryData[i].name}</li>`)
@@ -153,18 +172,7 @@ function goBack(event) {
     }
 }
 
-function resetCard() {
-    $name.text('');
-    $photo.attr('src', '#').attr('alt', '');
-    $description.text('');
-    $locations.text('');
-    $drops.text('');
-}
 
-function resetList() {
-    $('.list-item').remove();
-    $('.subcategory').remove();
-}
 
 let countCalls = 0;
 function grabNames() {
@@ -220,7 +228,7 @@ function generateDynamicList() {
         $placeholderText.fadeOut();
         let resultArr = [];
         resultArr = allNames.filter(object => object.name.includes(`${keyInput}`))
-        console.log(resultArr.length)
+        resultArr = sortByName(resultArr);
         for (let i = 0; i < resultArr.length; i++) {          
             $searchList.append(`<li class="search-list-item" id=${resultArr[i].id}>${resultArr[i].name}</li>`)
         }
