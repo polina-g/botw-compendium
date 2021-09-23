@@ -8,10 +8,11 @@ let itemData;
 let allNames = [];
 
 //CACHE ELEMENTS
-//List elemenets
+//List elements
 const $container = $('#category-container');
 const $listContainer = $('#list-container')
 const $list = $('#item-list');
+const $categoryTitle = $('#category-title')
 
 //Description Card Elements
 const $cardContainer = $('#card-container');
@@ -69,6 +70,7 @@ function callCategoryApi() {
             categoryData = data.data; 
 
             if (category === 'creatures') {
+                $categoryTitle.text(`${category.toUpperCase()}`);
                 $list.append(`<li class="subcategory" id="food">Food</li><li class="subcategory" id="non_food">Animals</li>`)
                 $('li').click(function(event) {
                     subCategory = $(event.target).attr('id');
@@ -90,7 +92,7 @@ function renderList() {
     let nameData = categoryData.map(object => object.name);
     nameData.sort();
     categoryData = nameData.map(name => categoryData.find(object => object.name === name))
-    console.log(categoryData);
+    $categoryTitle.text(`${category.toUpperCase()}`);
     for (let i = 0; i < categoryData.length; i++) {
         $list.append(`<li class="list-item" id="${categoryData[i].id}">${categoryData[i].name}</li>`)
     }
