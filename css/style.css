@@ -61,13 +61,6 @@ button > a {
    
 }
 
-.line {
-    width: 100%; 
-    padding-top:15px;
-    border-bottom: 3px solid rgb(188, 135, 48); 
-    background-color: black;
-}
-
 h1 {
     color: rgb(188, 135, 48);
     padding-top: 50px; 
@@ -123,22 +116,26 @@ li {
 }
 
 #creatures {
-    background: url('/images/creatures-background2.png')
+    background: url('/images/creatures-background2.png');
+    background-size: cover;
 }
 
 #materials {
     background: url('/images/materials-background.png');
+    background-size: cover;
 }
 
 #equipment {
     background: url('/images/equipment-background.png');
+    background-size: cover;
     background-repeat: no-repeat;
     background-position-y: bottom;
     background-color: black;
 }
 
 #treasure {
-    background: url('/images/treasure-background.jpeg')
+    background: url('/images/treasure-background.jpeg');
+    background-size: cover;
 }
 
 #list-container, #card-container {
@@ -307,15 +304,23 @@ and (max-width: 812px)  {
     }
 
     #list-container, #card-container {
-        width: 100vw;
-        max-height: 100vh;
-        top: 350px; 
+        margin: 0 auto; 
+        position: relative;
+        top: 10px; 
         left: 0;
+        z-index: 0; 
+        width: 90vw;
+        max-height: 50%;
     }
 
     #search-container > input {
         width: 90%;
+        margin-left: 20px; 
     }
 
-
+    #category-container > div {
+        height: 100px;
+        width: 100px;
+        font-size: 12px; 
+    }
 }

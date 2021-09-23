@@ -198,9 +198,12 @@ function grabNames() {
 function generateDynamicList() {
     //Bug difficult to reproduce, console log here to debug once the problem occurs again!
     console.log('generating...')
-    
-    let keyInput = $searchInput.val(); 
+ 
+
+    let keyInput = $searchInput.val().toLowerCase(); 
+ 
     $('.search-list-item').remove();
+    console.log(keyInput);
 
     //When the imput is empty, return to baseline state
     if(keyInput.length < 1) {
