@@ -1,7 +1,7 @@
 //CONSTANTS AND GLOBAL VARIABLES
 const BASE_URL = 'https://botw-compendium.herokuapp.com/api/v2';
 let category;
-let subCategory;
+let subCategory = null;
 let categoryData;
 let allData;
 let itemData;
@@ -22,6 +22,7 @@ const $description = $('#description');
 const $locations = $('#common-locations');
 const $drops = $('#drops');
 const $loadingBox = $('div.loading');
+const $backBtn = $('button.back')
 
 //Search Elements
 const $searchInput = $('#search-input');
@@ -29,17 +30,19 @@ const $searchBtn = $('#search-btn');
 const $searchList = $('#search-list');
 const $placeholderText = $('#placeholder-text')
 
+//Hiidng elements that appear dynamically throughout the website
 $listContainer.hide();
 $cardContainer.hide();
 $loadingBox.hide();
+$backBtn.hide();
 
 //Event listeners
-$container.on('click', ".box", showList)
-$('main').on('click', '.list-item', showCard)
+$container.on('click', ".box", createList)
+$('main').on('click', '.list-item', createCard)
 $('main').on('click', '.close', close);
 $('main').on('click', '.back', goBack);
 $searchInput.on('keyup', generateDynamicList)
-$('#search').on('click', '.search-list-item', showCard)
+$('#search').on('click', '.search-list-item', createCard)
 
 
 //Monitoring API requests//
@@ -76,8 +79,8 @@ function resetList() {
     $('.subcategory').remove();
 }
 
-//Showing API data when category container clicked
-function showList(event) {
+//When category is selected, call API and create list
+function createList(event) {
     category = $(event.target).closest('div').attr('id');
     $listContainer.fadeIn();
     $cardContainer.fadeOut();
@@ -90,7 +93,9 @@ function callCategoryApi() {
         .then(function(data) {
             categoryData = data.data; 
 
+            //Unlike othe categories, the creatures category has two subcategories: before passing the API data to render, user chooses the subcategory first
             if (category === 'creatures') {
+                $backBtn.hide();
                 $categoryTitle.text(`${category.toUpperCase()}`);
                 $list.append(`<li class="subcategory" id="food">Food</li><li class="subcategory" id="non_food">Animals</li>`)
                 $('li').click(function(event) {
@@ -99,10 +104,9 @@ function callCategoryApi() {
                     categoryData = categoryData[subCategory]
                     renderList();
                 })        
-            }
-
+            } else {
             renderList();
-
+            }
         },
         function() {
             console.log('Something went wrong')
@@ -110,6 +114,11 @@ function callCategoryApi() {
 }
 
 function renderList() {
+    $backBtn.hide()
+    if (category === 'creatures' && subCategory !== null) {
+        $backBtn.show();
+    }
+  
     categoryData = sortByName(categoryData)
     $categoryTitle.text(`${category.toUpperCase()}`);
     for (let i = 0; i < categoryData.length; i++) {
@@ -118,18 +127,38 @@ function renderList() {
 
 }
 
-function showCard(event) {
+function createCard(event) {
     let cardId = $(event.target).attr('id');
+    let eventLocation = $(event.target).closest('ul').attr('id');
+    console.log("event location", eventLocation);
     $listContainer.fadeOut();
     $cardContainer.fadeIn();
     $.ajax(`${BASE_URL}/entry/${cardId}`).then(function(data) {
         itemData = data.data;
-        renderCard();
+        backButtonShow = true;
+        if (eventLocation == 'item-list') {
+            renderCard(true);
+        }
+
+        else if (eventLocation == 'search-list') {
+            renderCard(false)
+        }
+
     })
 
 }
 
-function renderCard() {
+function renderCard(backButtonShow) {
+    if (category !== 'creatures') {
+        subcategory = null;
+    }
+
+    if (backButtonShow) {
+        $backBtn.show();
+    } else {
+        $backBtn.hide();
+    }
+
     for (key in itemData) {
         if (!itemData[key]) {
             itemData[key] = ['unknown'];
@@ -153,7 +182,6 @@ function close(event) {
 
 function goBack(event) {
     let currentBoxType = $(event.target).parents('div.container').attr('id');
-    console.log("List or Card: ", currentBoxType); 
     if (currentBoxType === 'card-container') {
         console.log(categoryData)
         $cardContainer.hide();
@@ -161,9 +189,7 @@ function goBack(event) {
         renderList()
     } else if (currentBoxType === 'list-container') {
         let listType = $(event.target).closest('button').parent().siblings('ul').find('li').attr('class');
-        console.log('Type of list: ', listType, $(event.target).parent())
         if (listType === 'list-item' && category == 'creatures') {
-            console.log('calling API')
             callCategoryApi();
         } else {
             close(event);
