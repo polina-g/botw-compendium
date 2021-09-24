@@ -10,9 +10,9 @@ let allNames = [];
 //CACHE ELEMENTS
 //List elements
 const $container = $('#category-container');
-const $listContainer = $('#list-container')
+const $listContainer = $('#list-container');
 const $list = $('#item-list');
-const $categoryTitle = $('#category-title')
+const $categoryTitle = $('#category-title');
 
 //Description Card Elements
 const $cardContainer = $('#card-container');
@@ -22,13 +22,13 @@ const $description = $('#description');
 const $locations = $('#common-locations');
 const $drops = $('#drops');
 const $browseLoadingBox = $('div.browse-loading');
-const $backBtn = $('button.back')
+const $backBtn = $('button.back');
 
 //Search Elements
 const $searchInput = $('#search-input');
 const $searchBtn = $('#search-btn');
 const $searchList = $('#search-list');
-const $placeholderText = $('#placeholder-text')
+const $placeholderText = $('#placeholder-text');
 const $searchLoadingBox = $('div.search-loading');
 
 //Hiidng elements that appear dynamically throughout the website
@@ -36,7 +36,6 @@ $listContainer.hide();
 $cardContainer.hide();
 $browseLoadingBox.hide();
 $searchLoadingBox.hide();
-$('.search-loading').css('opacity', '0');
 
 //Event listeners
 $container.on('click', ".box", createList)
@@ -47,15 +46,10 @@ $searchInput.on('keyup', generateDynamicList)
 $('#search').on('click', '.search-list-item', createCard)
 
 
-//Monitoring API requests//
+//Reseting list and card divs at start of new api calls//
 $(document).ajaxStart(function() {
-    console.log('request started')
     resetCard();
     resetList();
-})
-
-$(document).ajaxStop(function() {
-    console.log('request complete')
 })
 
 //Helper functions

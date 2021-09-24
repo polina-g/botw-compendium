@@ -25,18 +25,26 @@ A web application based on the most recent (and, some will say, the *most popula
 
 ### Search Box
 ![screenshot 2](./images/botw-searchbox-empty.png)
-### Search Box in action
 
-### Mobile responsiveness!!
-![screenshot 1](./images/botw-mobile-responsive-1.png)
+### Search Box in action
+![screenshot 2](./images/botw-search-action.png)
+
+### The app is mobile responsive!
+![screenshot 1](./images/botw-mobile-responsive-1.png) 
 ![screenshot 1](./images/botw-mobile-responsive-2.png)
+![screenshot 1](./images/botw-mobile-responsive-3.png) 
+
 
 ## Getting Started
 [Click here](https://botw-compendium.netlify.app) to see the deployed project
 
 # Future Enhancements
 
+### 1. Include attack and defence stats for equipment and shields!
+### 2. Add functionality that allows to search for enemies that provide specific drops
+### 3. Include an interactive map that allows to search the database by specific locations and areas.
+
 # Author
-- [Profile]()
-- [Twitter]()
-- [LinkedIn]()
+- [Github Profile](https://github.com/polina-g) 
+- [Twitter](https://twitter.com/ThisIsPolinaG)
+- [LinkedIn](linkedin.com/in/polina-gorbunova-71657170)
