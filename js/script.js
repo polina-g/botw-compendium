@@ -73,7 +73,7 @@ function resetList() {
     $('.subcategory').remove();
 }
 
-//When category is selected, call API and create list
+//When category is selected, call API, creating a list of items
 function createList(event) {
     category = $(event.target).closest('div').attr('id');
     $listContainer.fadeIn();
@@ -86,19 +86,24 @@ function callCategoryApi() {
     $browseLoadingBox.fadeIn();
     $.ajax(`${BASE_URL}/category/${category}`)
         .then(function(data) {
+            //Fade loading box, store fetched data in global variable
             $browseLoadingBox.fadeOut();
             categoryData = data.data; 
 
-            //Unlike othe categories, the creatures category has two subcategories: before passing the API data to render, user chooses the subcategory first
+            //Unlike other categories, the creatures category has two subcategories: before passing the API data to render, user chooses the subcategory first
             if (category === 'creatures') {
                 $backBtn.hide();
                 $categoryTitle.text(`${category.toUpperCase()}`);
                 $list.append(`<li class="subcategory" id="food">Food</li><li class="subcategory" id="non_food">Animals</li>`)
+
+                //Once subcategories are appended - add event listener for click
                 $('li').click(function(event) {
                     subCategory = $(event.target).attr('id');
                     $('.subcategory').remove();
-                    categoryData = categoryData[subCategory];
 
+                    //Store data for chosen subcategory in global variable
+                    categoryData = categoryData[subCategory];
+                    
                     renderList();
                 })        
             } else {
@@ -113,30 +118,40 @@ function callCategoryApi() {
 
 function renderList() {
     $backBtn.hide()
+
+    // Show back button on the list page only if showing list for a subcategory of creatures
     if (category === 'creatures' && subCategory !== null) {
         $backBtn.show();
     }
   
+    //Sort data my name and append
     categoryData = sortByName(categoryData)
     $categoryTitle.text(`${category.toUpperCase()}`);
     for (let i = 0; i < categoryData.length; i++) {
         $list.append(`<li class="list-item" id="${categoryData[i].id}">${categoryData[i].name}</li>`)
     }
-
 }
 
+
 function createCard(event) {
+    //Grab item id from the clicked list item and the location of the generated list (search box or browsing)
+    //This deterines if the rendered card will have a back button or not
     let cardId = $(event.target).attr('id');
     let eventLocation = $(event.target).closest('ul').attr('id');
   
     $listContainer.fadeOut();
     $cardContainer.fadeIn();
+
+    //Show loading screen before calling API
     $browseLoadingBox.fadeIn();
     $.ajax(`${BASE_URL}/entry/${cardId}`).then(function(data) {
+        //Once data was fetched succesfully - fade out loading box
         $browseLoadingBox.fadeOut();
 
+        //Store data for card from API in global variable
         itemData = data.data;
-        backButtonShow = true;
+
+        //Depending on where the user clicked the list item - assign boolean value to backButtonShow, passing it into the render function
         if (eventLocation == 'item-list') {
             renderCard(true);
         }
@@ -151,6 +166,7 @@ function createCard(event) {
 }
 
 function renderCard(backButtonShow) {
+    // Nullify subcategory to make sure the back button doesn't appear if the creature category is chosen again
     if (category !== 'creatures') {
         subcategory = null;
     }
@@ -161,13 +177,14 @@ function renderCard(backButtonShow) {
         $backBtn.hide();
     }
 
+    //change value of falsey value to show 'unknown' on the card
     for (key in itemData) {
         if (!itemData[key]) {
             itemData[key] = ['unknown'];
-            console.log(itemData)
         }
     }
 
+    //Generate card
     $name.append(`${itemData.name}`);
     $photo.attr('src', `${itemData.image}`).attr('alt', `${itemData.name} image`);
     $description.append(`<span class="highlight">Description: </span>${itemData.description}`);
@@ -175,7 +192,7 @@ function renderCard(backButtonShow) {
     $drops.append(`<span class="highlight">Drops: </span>${itemData.drops.join(', ')}`)
 }
 
-
+// Close and back button functions
 function close(event) {
     $(event.target).closest('div.container').fadeOut();
     resetCard()
@@ -183,37 +200,38 @@ function close(event) {
 }
 
 function goBack(event) {
+    //Depending on the current screen type at the time of the event, generate the logically previously shown screen. 
     let currentBoxType = $(event.target).parents('div.container').attr('id');
+
     if (currentBoxType === 'card-container') {
-        console.log(categoryData)
         $cardContainer.hide();
         $listContainer.fadeIn();
         renderList()
-    } else if (currentBoxType === 'list-container') {
-        let listType = $(event.target).closest('button').parent().siblings('ul').find('li').attr('class');
-        if (listType === 'list-item' && category == 'creatures') {
-            callCategoryApi();
-        } else {
-            close(event);
-        }
-        
+        return;
     }
+
+    callCategoryApi();
+
 }
 
-
+//Calls API when user inputs first letter in search bar and stores objects with the name and id in a global variable array
 let countCalls = 0;
 function grabNames() {
-    //If we've already called this API during the session, skip calling it again!!!
+    //Counting API calls for one search 
     if (countCalls > 0) {
         return;
     }
 
+    //Show loading screen
     $searchLoadingBox.fadeIn()
 
+    //API call
     $.ajax(`${BASE_URL}`)
         .then(function(data){
           $searchLoadingBox.fadeOut()
           let allData = data.data;
+
+          //Iterate through categories and store items+id 
           for (category in allData) {
             if (category != 'creatures'){
               allNames.push(allData[category].map(itemObject => ({name: itemObject.name, id: itemObject.id})))
@@ -224,8 +242,8 @@ function grabNames() {
             }
           }
 
+          //Flatten the array and generate list
           allNames = allNames.flat();
-          console.log("All Names length ", allNames.length)
           generateDynamicList();
          
 
@@ -237,22 +255,27 @@ function grabNames() {
         countCalls++;
   }
   
+//Generate list based on current input of the search bar
 function generateDynamicList() {
     let keyInput = $searchInput.val().toLowerCase(); 
+
+    //remove previously displayed items
     $('.search-list-item').remove();
 
-    //When the imput is empty, return to baseline state
+    //When the input is empty, return to baseline state
     if(keyInput.length < 1) {
         $placeholderText.fadeIn();
         return
     }
 
-    //If we haven't called the API to store the names yes - grab the names
+    //If we haven't called the API to store the names yet - grab the names
     if (allNames.length === 0) {
         grabNames();
     } else {
         $placeholderText.fadeOut();
         let resultArr = [];
+
+        //Find all the names that include the typed in letters, sort and append to container
         resultArr = allNames.filter(object => object.name.includes(`${keyInput}`))
         resultArr = sortByName(resultArr);
         for (let i = 0; i < resultArr.length; i++) {          
